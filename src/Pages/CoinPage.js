@@ -16,6 +16,7 @@ const CoinPage = () => {
     const [coin, setCoin] = useState();
     const { currency, symbol } = CryptoState()
     const fetchCoin = async () => {
+        //import api link from api.js
         const { data } = await axios.get(SingleCoin(id))
         setCoin(data)
         console.log(data);
@@ -23,9 +24,10 @@ const CoinPage = () => {
 
     useEffect(() => {
         fetchCoin()
+        //rerender when currency(dependacny) is change
     }, [currency])
 
-
+    //material UI styling classes.<>
     const useStyles = makeStyles((theme) => ({
         container: {
             display: "flex",
@@ -92,6 +94,7 @@ const CoinPage = () => {
                     </Typography>
 
                     <Typography variant="subtitle" className={classes.description}>
+                        {/* {description is too large so split first part when full stops is there} */}
                         {(coin?.description.en.split(". ")[0])}
                     </Typography>
                     &nbsp;
@@ -119,6 +122,8 @@ const CoinPage = () => {
                             <Typography variant="h5" className={classes.heading}>
                                 Market Cap:
                                 {symbol} {" "}
+
+                                {/* {numberWithCommas to make 000,000,000} */}
                                 {numberWithCommas(coin?.market_data.market_cap[currency.toLowerCase()]
                                     .toString()
                                     .slice(0, -6)
